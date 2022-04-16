@@ -1,6 +1,6 @@
 {
   "name": "@marceloclp/react-aware",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A set of declarative components that implement self aware functionalities",
   "author": "marceloclp",
   "license": "MIT",
