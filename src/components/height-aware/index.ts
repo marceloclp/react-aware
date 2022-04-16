@@ -1,1 +1,1 @@
-export * from './height-aware'
+export { HeightAware } from './height-aware'

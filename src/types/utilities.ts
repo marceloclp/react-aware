@@ -1,5 +1,4 @@
 import { ComponentProps, ElementType } from 'react'
-import { Overwrite } from 'utility-types'
 
 /**
  * Returns the default props of any React component or HTML element.
@@ -11,10 +10,10 @@ import { Overwrite } from 'utility-types'
 export type PropsOf<TagName extends ElementType = any> =
   TagName extends ElementType ? ComponentProps<TagName> : never
 
-export type PropsAs<TagName extends ElementType, Props extends {}> = Overwrite<
-  PropsOf<TagName>,
-  Props
-> & { as?: TagName }
+// prettier-ignore
+export type PropsAs<TagName extends ElementType, Props extends {}> =
+  & Omit<PropsOf<TagName>, keyof Props>
+  & Props & { as?: TagName }
 
 export type RenderFn<P> = (props: P) => JSX.Element
 
@@ -28,5 +27,3 @@ export type ElementRect = {
   bottom: number
   left: number
 }
-
-export type SetRef<E extends Element> = (element: E) => void

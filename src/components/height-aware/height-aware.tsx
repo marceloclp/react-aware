@@ -1,37 +1,20 @@
-import React, { CSSProperties, ElementType, MutableRefObject } from 'react'
-import useMeasure from '../../hooks/use-measure'
+import React, { ElementType, MutableRefObject } from 'react'
+import useMeasure, { UseMeasureOptions } from '../../hooks/use-measure'
 import useSyncRefs from '../../hooks/use-sync-ref'
-import { UseMeasureOptions } from '../../hooks/use-measure'
 import forwardRefWithAs from '../../utils/forward-ref-with-as'
 import { PropsAs, RenderFn } from '../../types/utilities'
 
 const equalityFn: UseMeasureOptions['equalityFn'] = (prev, next) =>
   prev.height === next.height
 
-/**
- * Helper utility that returns a `CSSProperties` object where `height` and
- * `max-height` are both set to the specified value.
- *
- * Mostly useful when you need to create a component with a fixed height.
- */
-export const getEnforcedHeightStyle = (height: number): CSSProperties => ({
-  height: `${height}px`,
-  maxHeight: `${height}px`
-})
-
-/**
- * Helper utility that returns a `CSSProperties` object with the `height`,
- * `max-height` and `overflow` properties set to allow scrolling within the
- * styled container.
- */
-export const getScrollableStyle = (height: number): CSSProperties => ({
-  ...getEnforcedHeightStyle(height),
-  overflow: 'scroll'
-})
-
 export type HeightAwareProps = {
   children: RenderFn<{ height: number }>
 }
+
+type HeightAwareFC = <T extends ElementType = 'div'>(
+  props: PropsAs<T, HeightAwareProps>
+) => JSX.Element
+
 const DEFAULT_HEIGHT_AWARE_TAG_NAME: ElementType = 'div'
 
 // prettier-ignore
@@ -42,9 +25,8 @@ const DEFAULT_HEIGHT_AWARE_TAG_NAME: ElementType = 'div'
  *
  * The wrapper component should be styled properly to take the desired height.
  */
-export const HeightAware = forwardRefWithAs(
-  function HeightAware<T extends ElementType = 'div'>(
-    {
+export const HeightAware: HeightAwareFC = forwardRefWithAs(
+  function HeightAware<T extends ElementType = 'div'>({
       as,
       children,
       ...props

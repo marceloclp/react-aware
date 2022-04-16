@@ -1,16 +1,28 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "standard",
-    "standard-react",
-    "plugin:prettier/recommended",
-    "prettier/standard",
-    "prettier/react",
-    "plugin:@typescript-eslint/eslint-recommended"
-  ],
+  // "parser": "@typescript-eslint/parser",
+  // "extends": [
+  //   "standard",
+  //   "standard-react",
+  //   "plugin:prettier/recommended",
+  //   "prettier/standard",
+  //   "prettier/react",
+  //   "plugin:@typescript-eslint/eslint-recommended"
+  // ],
   "env": {
     "node": true
   },
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "unused-imports",
+    "autofix"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "react:recommened",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "parserOptions": {
     "ecmaVersion": 2020,
     "ecmaFeatures": {
@@ -24,11 +36,44 @@
     }
   },
   "rules": {
-    "space-before-function-paren": 0,
-    "react/prop-types": 0,
-    "react/jsx-handler-names": 0,
-    "react/jsx-fragments": 0,
-    "react/no-unused-prop-types": 0,
-    "import/export": 0
+    "no-unused-vars": "off",
+    "no-console": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "autofix/sort-imports": "always",
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": [
+      "warn", {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "import/first": "always",
+    "simple-import-sort/exports": "warn",
+    "simple-import-sort/imports": [
+      "warn", {
+        "groups": [
+          [
+            "^.*//u0000$",
+            "^\\u0000",
+            "^@?\\w",
+            "^"
+          ]
+        ]
+      }
+    ],
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      { "props": "never", "children": "never" }
+    ]
+  },
+  "globals": {
+    "React": true,
+    "JSX": true
   }
 }
