@@ -29,12 +29,12 @@ export const getScrollableStyle = (height: number): CSSProperties => ({
   overflow: 'scroll'
 })
 
-// prettier-ignore
 export type HeightAwareProps = {
   children: RenderFn<{ height: number }>
 }
 const DEFAULT_HEIGHT_AWARE_TAG_NAME: ElementType = 'div'
 
+// prettier-ignore
 /**
  * The height aware component will render a wrapper element which will have its
  * dimensions tracked. The height is passed as an argument of the render

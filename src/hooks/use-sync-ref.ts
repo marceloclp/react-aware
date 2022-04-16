@@ -15,7 +15,7 @@ const useSyncRefs = <T>(...refs: ForwardedRef<T>[]) => {
         else ref.current = value
       }
     },
-    [cache]
+    [cache],
   )
 
   return refs.every((ref) => ref == null) ? undefined : syncRefs

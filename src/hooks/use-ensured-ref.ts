@@ -1,8 +1,6 @@
-import { MutableRefObject, useEffect, useRef } from "react"
+import { MutableRefObject, useEffect, useRef } from 'react'
 
-const useEnsuredRef = <T>(
-  ref: MutableRefObject<T>
-): MutableRefObject<T> => {
+const useEnsuredRef = <T>(ref: MutableRefObject<T>): MutableRefObject<T> => {
   const ensuredRef = useRef(ref && ref.current)
 
   useEffect(() => {

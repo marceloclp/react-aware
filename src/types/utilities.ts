@@ -11,8 +11,10 @@ import { Overwrite } from 'utility-types'
 export type PropsOf<TagName extends ElementType = any> =
   TagName extends ElementType ? ComponentProps<TagName> : never
 
-export type PropsAs<TagName extends ElementType, Props extends {}> =
-  Overwrite<PropsOf<TagName>, Props> & { as?: TagName }
+export type PropsAs<TagName extends ElementType, Props extends {}> = Overwrite<
+  PropsOf<TagName>,
+  Props
+> & { as?: TagName }
 
 export type RenderFn<P> = (props: P) => JSX.Element
 

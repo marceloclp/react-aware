@@ -23,9 +23,7 @@ const defaultRect: ElementRect = {
  *
  * @see https://github.com/streamich/react-use/blob/master/docs/useMeasure.md
  */
-const useBrowserMeasure = (
-  { equalityFn }: UseMeasureOptions = {}
-) => {
+const useBrowserMeasure = ({ equalityFn }: UseMeasureOptions = {}) => {
   const [element, setRef] = useState<HTMLElement | null>(null)
   const [rect, setRect] = useState(defaultRect)
 
