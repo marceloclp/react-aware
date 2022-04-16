@@ -69,7 +69,7 @@ const Scrollable = ({ children }) => (
   <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
     <div style={{ height: '200px' }}>
     <HeightAware style={{ flexGrow: 1 }}>
-      {({ height }) => (
+      {(height) => (
         <div style={getScrollableStyle(height)}>
           {children}
         </div>
