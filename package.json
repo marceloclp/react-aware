@@ -4,6 +4,7 @@
   "description": "A set of declarative components that implement self aware functionalities",
   "author": "marceloclp",
   "license": "MIT",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marceloclp/react-aware"
