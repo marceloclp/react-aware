@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
-import { ExampleComponent } from '@marceloclp/react-aware'
+import { SelfAware } from '@marceloclp/react-aware'
 import '@marceloclp/react-aware/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <SelfAware as={Fragment}>{(ref, elem) => <div ref={ref as any}>{elem?.ATTRIBUTE_NODE}adada</div>}</SelfAware>
 }
 
 export default App

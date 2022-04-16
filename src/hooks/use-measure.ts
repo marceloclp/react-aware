@@ -1,10 +1,6 @@
 import { useLayoutEffect, useMemo, useState } from 'react'
 import { IS_BROWSER } from '../config/constants'
-import { ElementRect } from '../types/utilities'
-
-export type UseMeasureOptions = {
-  equalityFn?: (prevRect: ElementRect, nextRect: ElementRect) => boolean
-}
+import { ElementRect, EqualityFn } from '../types/utilities'
 
 const defaultRect: ElementRect = {
   x: 0,
@@ -23,8 +19,10 @@ const defaultRect: ElementRect = {
  *
  * @see https://github.com/streamich/react-use/blob/master/docs/useMeasure.md
  */
-const useBrowserMeasure = ({ equalityFn }: UseMeasureOptions = {}) => {
-  const [element, setRef] = useState<HTMLElement | null>(null)
+const useBrowserMeasure = ({
+  equalityFn,
+}: { equalityFn?: EqualityFn<ElementRect> } = {}) => {
+  const [element, setRef] = useState<Element | null>(null)
   const [rect, setRect] = useState(defaultRect)
 
   const observer = useMemo(() => {

@@ -1,6 +1,8 @@
 import { ForwardedRef, useCallback, useEffect, useRef } from 'react'
 
-const useSyncRefs = <T>(...refs: ForwardedRef<T>[]) => {
+const useSyncRefs = <T, Defined extends boolean = false>(
+  ...refs: ForwardedRef<T>[]
+): Defined extends true ? ForwardedRef<T> : ForwardedRef<T> | undefined => {
   const cache = useRef(refs)
 
   useEffect(() => {
@@ -15,10 +17,10 @@ const useSyncRefs = <T>(...refs: ForwardedRef<T>[]) => {
         else ref.current = value
       }
     },
-    [cache],
+    [cache]
   )
 
-  return refs.every((ref) => ref == null) ? undefined : syncRefs
+  return refs.every((ref) => ref == null) ? undefined : (syncRefs as any)
 }
 
 export default useSyncRefs

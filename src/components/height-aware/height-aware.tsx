@@ -1,44 +1,56 @@
-import React, { ElementType, MutableRefObject } from 'react'
-import useMeasure, { UseMeasureOptions } from '../../hooks/use-measure'
-import useSyncRefs from '../../hooks/use-sync-ref'
+import { ElementType, ForwardedRef, MutableRefObject } from 'react'
+import { ElementRect, EqualityFn, PropsAs } from '../../types/utilities'
 import forwardRefWithAs from '../../utils/forward-ref-with-as'
-import { PropsAs, RenderFn } from '../../types/utilities'
-
-const equalityFn: UseMeasureOptions['equalityFn'] = (prev, next) =>
-  prev.height === next.height
+import renderAs from '../../utils/render-as'
+import useMeasure from '../../hooks/use-measure'
+import useSyncRefs from '../../hooks/use-sync-ref'
 
 export type HeightAwareProps = {
-  children: RenderFn<{ height: number }>
+  children: (height: number, ref: ForwardedRef<Element>) => JSX.Element
 }
 
-type HeightAwareFC = <T extends ElementType = 'div'>(
+type HeightAwareFC = <T extends ElementType = typeof HEIGHT_AWARE_TAG_NAME>(
   props: PropsAs<T, HeightAwareProps>
 ) => JSX.Element
 
-const DEFAULT_HEIGHT_AWARE_TAG_NAME: ElementType = 'div'
+const HEIGHT_AWARE_TAG_NAME = 'div'
+const HEIGHT_AWARE_DISPLAY_NAME = 'HeightAware'
+
+const equalityFn: EqualityFn<ElementRect> = (prev, next) =>
+  prev.height === next.height
 
 // prettier-ignore
 /**
- * The height aware component will render a wrapper element which will have its
- * dimensions tracked. The height is passed as an argument of the render
- * function, and can be used to create scrollable elements.
- *
- * The wrapper component should be styled properly to take the desired height.
+ * A slimmed down version of the `RectAware` component that will only trigger
+ * updates when its height changes.
+ * 
+ * Returns a container that is aware of its bounding rectangle height.
+ * 
+ * ```tsx
+ *  <div style={{ display: 'flex', flexDirection: 'column' }}>
+ *    <HeightAware as="div" style={{ flexGrow: 1 }}>
+ *      {(height) => <div style={getScrollableStyle(height)} />}
+ *    </HeightAware>
+ *  </div>
+ * ```
  */
 export const HeightAware: HeightAwareFC = forwardRefWithAs(
-  function HeightAware<T extends ElementType = 'div'>({
-      as,
+  function HeightAware<T extends ElementType = typeof HEIGHT_AWARE_TAG_NAME>({
+      as: tagName,
       children,
       ...props
     }: PropsAs<T, HeightAwareProps>,
-    ref: MutableRefObject<HTMLElement>
+    forwardedRef: MutableRefObject<HTMLElement>
   ) {
-    const TagName = as || DEFAULT_HEIGHT_AWARE_TAG_NAME
-
     const [setMeasuredRef, { height }] = useMeasure({ equalityFn })
-    const syncedRef = useSyncRefs(ref, setMeasuredRef)
+    const ref = useSyncRefs<Element, true>(forwardedRef, setMeasuredRef)
 
-    // @ts-ignore
-    return <TagName {...props} ref={syncedRef}>{children({ height })}</TagName>
+    return renderAs({
+      displayName: HEIGHT_AWARE_DISPLAY_NAME,
+      tagName: tagName || HEIGHT_AWARE_TAG_NAME,
+      render: () => children(height, ref),
+      props,
+      ref,
+    })
   }
 )

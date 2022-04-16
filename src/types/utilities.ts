@@ -15,7 +15,7 @@ export type PropsAs<TagName extends ElementType, Props extends {}> =
   & Omit<PropsOf<TagName>, keyof Props>
   & Props & { as?: TagName }
 
-export type RenderFn<P> = (props: P) => JSX.Element
+export type EqualityFn<T> = (prev: T, next: T) => boolean
 
 export type ElementRect = {
   x: number
