@@ -35,7 +35,7 @@ const Example = () => (
 )
 ```
 
-### [`RectAware`]("./example/src/components/rect-aware.tsx")
+### [`RectAware`](./example/src/components/rect-aware.tsx)
 
 Returns a container that is aware of its bounding client rectangle.
 
@@ -53,7 +53,7 @@ const Screen = () => (
 )
 ```
 
-### [`HeightAware`]("./example/src/components/height-aware.tsx")
+### [`HeightAware`](./example/src/components/height-aware.tsx)
 
 Returns a container that is aware of its height. Particularly useful when
 rendering scrollable elements that do not have a fixed height (for example,
@@ -79,7 +79,7 @@ const Scrollable = ({ children }) => (
 )
 ```
 
-### [`SelfAware`]("./example/src/components/self-aware.tsx")
+### [`SelfAware`](./example/src/components/self-aware.tsx)
 
 Returns a container that is aware of its own DOM node. Its render function
 receives both the element - as reactive state, and the ref object, which is
@@ -104,7 +104,7 @@ const Button = () => (
 )
 ```
 
-### [`ScreenAware`]("./example/src/components/screen-aware.tsx")
+### [`ScreenAware`](./example/src/components/screen-aware.tsx)
 
 Returns a `Fragment` by default containing the screen dimensions and the
 currently active breakpoint, if a list of breakpoints is specified.
