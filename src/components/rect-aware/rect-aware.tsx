@@ -1,12 +1,13 @@
-import { ElementType, ForwardedRef, MutableRefObject } from 'react'
-import { AwareComponent, ElementRect, PropsAs } from '../../types/utilities'
+import { ElementType, MutableRefObject, RefCallback } from 'react'
+import { AwareComponent, PropsAs } from '../../types/utilities'
+import { ElementRect } from '../../types/element-rect'
 import forwardRefWithAs from '../../utils/forward-ref-with-as'
 import renderAs from '../../utils/render-as'
 import useMeasure from '../../hooks/use-measure'
 import useSyncRefs from '../../hooks/use-sync-ref'
 
-export type RectAwareProps = {
-  children: (rect: ElementRect, ref: ForwardedRef<Element>) => JSX.Element
+type RectAwareProps = {
+  children: (rect: ElementRect, setRef: RefCallback<any>) => JSX.Element
 }
 
 type RectAwareComponent = AwareComponent<
@@ -33,8 +34,8 @@ const RECT_AWARE_DISPLAY_NAME = 'RectAware'
  * 
  * ```tsx
  *  <RectAware as={Fragment}>
- *    {({ width, height }, ref) => (
- *      <div ref={ref} style={{ height: '100%', width: '100%' }}>
+ *    {({ width, height }, setRef) => (
+ *      <div ref={setRef} style={{ height: '100%', width: '100%' }}>
  *        Height: {height}, width: {width}
  *      </div>
  *    )}
@@ -50,14 +51,14 @@ export const RectAware: RectAwareComponent = forwardRefWithAs(
     forwardedRef: MutableRefObject<HTMLElement>
   ) {
     const [setMeasuredRef, rect] = useMeasure()
-    const ref = useSyncRefs<Element, true>(forwardedRef, setMeasuredRef)
+    const setRef = useSyncRefs<Element>(forwardedRef, setMeasuredRef)
 
     return renderAs({
       displayName: RECT_AWARE_DISPLAY_NAME,
       tagName: tagName || RECT_AWARE_TAG_NAME,
-      render: () => children(rect, ref),
+      children: children(rect, setRef),
       props,
-      ref,
+      setRef,
     })
   }
 )

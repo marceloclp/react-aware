@@ -30,8 +30,8 @@ describe('HeightAware', () => {
     beforeEach(() => {
       result = render(
         <HeightAware as={React.Fragment} data-testid="wrapper">
-          {(height, ref) => (
-            <span ref={ref as any}>Height: {height}</span>
+          {(height, setRef) => (
+            <span ref={setRef}>Height: {height}</span>
           )}
         </HeightAware>
       )

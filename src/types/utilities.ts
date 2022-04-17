@@ -1,4 +1,4 @@
-import { ComponentProps, ElementType } from 'react'
+import { ComponentProps, ElementType, ForwardedRef } from 'react'
 
 /**
  * Returns the default props of any React component or HTML element.
@@ -21,7 +21,7 @@ export type PropsOf<TagName extends ElementType = any> =
 export type PropsAs<TagName extends ElementType, Props extends {}> =
   & Omit<PropsOf<TagName>, keyof Props>
   & Props
-  & { as?: TagName }
+  & { as?: TagName; ref?: ForwardedRef<any> }
 
 /**
  * Attaches the display name to an aware function component.
@@ -31,14 +31,3 @@ export type AwareComponent<FC extends (props: any) => JSX.Element> = FC & {
 }
 
 export type EqualityFn<T> = (prev: T, next: T) => boolean
-
-export type ElementRect = {
-  x: number
-  y: number
-  width: number
-  height: number
-  top: number
-  right: number
-  bottom: number
-  left: number
-}

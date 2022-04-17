@@ -1,16 +1,20 @@
-import { ForwardedRef, useCallback, useEffect, useRef } from 'react'
+import {
+  ForwardedRef,
+  RefCallback,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 
-const useSyncRefs = <T, Defined extends boolean = false>(
-  ...refs: ForwardedRef<T>[]
-): Defined extends true ? ForwardedRef<T> : ForwardedRef<T> | undefined => {
+const useSyncRefs = <T>(...refs: ForwardedRef<T>[]): RefCallback<T> => {
   const cache = useRef(refs)
 
   useEffect(() => {
     cache.current = refs
   }, [refs])
 
-  const syncRefs = useCallback(
-    (value: T) => {
+  const syncRefs: RefCallback<T> = useCallback(
+    (value) => {
       for (const ref of cache.current) {
         if (ref === null) continue
         if (typeof ref === 'function') ref(value)
@@ -20,7 +24,7 @@ const useSyncRefs = <T, Defined extends boolean = false>(
     [cache]
   )
 
-  return refs.every((ref) => ref == null) ? undefined : (syncRefs as any)
+  return refs.every((ref) => ref == null) ? () => undefined : syncRefs
 }
 
 export default useSyncRefs

@@ -28,8 +28,8 @@ describe('SelfAware', () => {
     beforeEach(() => {
       result = render(
         <SelfAware as={React.Fragment} data-testid="wrapper">
-          {(_, ref) => (
-            <span ref={ref as any} />
+          {(_, ref, setRef) => (
+            <span ref={setRef} />
           )}
         </SelfAware>
       )

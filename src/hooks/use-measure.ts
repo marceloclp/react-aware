@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useState } from 'react'
 import { IS_BROWSER } from '../config/constants'
-import { ElementRect, EqualityFn } from '../types/utilities'
+import { ElementRect } from '../types/element-rect'
+import { EqualityFn } from '../types/utilities'
 
 const defaultRect: ElementRect = {
   x: 0,

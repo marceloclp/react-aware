@@ -33,8 +33,8 @@ describe('RectAware', () => {
     beforeEach(() => {
       result = render(
         <RectAware as={React.Fragment} data-testid="wrapper">
-          {({ height }, ref) => (
-            <span ref={ref as any}>Height: {height}</span>
+          {({ height }, setRef) => (
+            <span ref={setRef}>Height: {height}</span>
           )}
         </RectAware>
       )

@@ -1,13 +1,21 @@
-import { ElementType, ForwardedRef, MutableRefObject, useState } from 'react'
+import {
+  ElementType,
+  MutableRefObject,
+  RefCallback,
+  RefObject,
+  useRef,
+  useState,
+} from 'react'
 import { AwareComponent, PropsAs } from '../../types/utilities'
 import forwardRefWithAs from '../../utils/forward-ref-with-as'
 import renderAs from '../../utils/render-as'
 import useSyncRefs from '../../hooks/use-sync-ref'
 
-export type SelfAwareProps = {
+type SelfAwareProps = {
   children: (
     element: Element | undefined,
-    ref: ForwardedRef<Element>
+    ref: RefObject<Element>,
+    setRef: RefCallback<Element>
   ) => JSX.Element
 }
 
@@ -47,8 +55,8 @@ const SELF_AWARE_DISPLAY_NAME = 'SelfAware'
  *
  * ```tsx
  *  <SelfAware as={Fragment}>
- *    {(elem, ref) => (
- *      <div ref={ref}>{elem?.clientHeight}</div>
+ *    {(elem, ref, setRef) => (
+ *      <div ref={setRef}>{elem?.clientHeight}</div>
  *    )}
  *  </SelfAware>
  * ```
@@ -61,15 +69,16 @@ export const SelfAware: SelfAwareComponent = forwardRefWithAs(
     }: PropsAs<T, SelfAwareProps>,
     forwardedRef: MutableRefObject<Element>
   ) {
+    const innerRef = useRef<Element>(null)
     const [elem, setElement] = useState<Element | null>(null)
-    const ref = useSyncRefs<Element, true>(forwardedRef, setElement)
+    const setRef = useSyncRefs<Element>(forwardedRef, innerRef, setElement)
 
     return renderAs({
       displayName: SELF_AWARE_DISPLAY_NAME,
       tagName: tagName || SELF_AWARE_TAG_NAME,
-      render: () => children(elem || undefined, ref),
+      children: children(elem || undefined, innerRef, setRef),
       props,
-      ref,
+      setRef,
     })
   }
 )

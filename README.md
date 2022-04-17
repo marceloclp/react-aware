@@ -16,7 +16,7 @@ Components will accept a render function instead of the usual `ReactNode` as the
 children, with a shape similar to the following signature:
 
 ```ts
-function render<T>(data: T | undefined | null, ref: ForwardedRef<Element>): JSX.Element
+function render<T>(data: T | undefined | null, setRef: RefCallback<any>): JSX.Element
 ```
 
 All components will attempt to render their own nodes - usually as a `div`
@@ -30,12 +30,12 @@ import { SelfAware } from '@marceloclp/react-aware'
 
 const Example = () => (
   <SelfAware as={Fragment}>
-    {(_, ref) => <div ref={ref} />}
+    {(_, __, setRef) => <div ref={setRef} />}
   </SelfAware>
 )
 ```
 
-### `RectAware`
+### [`RectAware`]("./example/src/components/rect-aware.tsx")
 
 Returns a container that is aware of its bounding client rectangle.
 
@@ -53,7 +53,7 @@ const Screen = () => (
 )
 ```
 
-### `HeightAware`
+### [`HeightAware`]("./example/src/components/height-aware.tsx")
 
 Returns a container that is aware of its height. Particularly useful when
 rendering scrollable elements that do not have a fixed height (for example,
@@ -79,7 +79,7 @@ const Scrollable = ({ children }) => (
 )
 ```
 
-### `SelfAware`
+### [`SelfAware`]("./example/src/components/self-aware.tsx")
 
 Returns a container that is aware of its own DOM node. Its render function
 receives both the element - as reactive state, and the ref object, which is
@@ -101,6 +101,35 @@ const Button = () => (
       </button>
     )}
   </SelfAware>
+)
+```
+
+### [`ScreenAware`]("./example/src/components/screen-aware.tsx")
+
+Returns a `Fragment` by default containing the screen dimensions and the
+currently active breakpoint, if a list of breakpoints is specified.
+
+This is particularly useful if you want to render different components based on
+screen width.
+
+```tsx
+import { Fragment } from 'react'
+import { Breakpoint, ScreenAware } from '@marceloclp/react-aware'
+
+const breakpoints: Breakpoint[] = [
+  { name: 'mobile', min: 0 },
+  { name: 'tablet', min: 500 },
+  { name: 'desktop', min: 1000 },
+]
+
+export const Example = () => (
+  <ScreenAware as="div" breakpoints={breakpoints}>
+    {({ breakpoint: { name }}) => ({
+      mobile: () => <div>Mobile screen</div>,
+      tablet: () => <div>Tablet screen</div>,
+      desktop: () => <div>Desktop screen</div>,
+    }[name])()}
+  </ScreenAware>
 )
 ```
 
