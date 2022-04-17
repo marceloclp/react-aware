@@ -22,7 +22,7 @@ type RenderParams = {
 /**
  * Selectively renders the output of an Aware component based on the `tagName`:
  *    1. If `tagName` is a `Fragment`, then we need to make sure the child is a
- *       valid react element, so we can clone and attach the ref object.
+ *       valid react element, so we can clone and passthrough the parent props.
  *    2. If `tagName` is a valid react element, then we need to attach the ref
  *       object and render the element.
  */
@@ -46,7 +46,7 @@ const renderAs = ({
       ) {
         throw new InvalidFragmentAsTagName(displayName, props)
       }
-      const resolvedProps = mergeProps(children.props, compactedProps, { ref })
+      const resolvedProps = mergeProps(children.props, compactedProps)
       return cloneElement(children, resolvedProps)
     }
   }

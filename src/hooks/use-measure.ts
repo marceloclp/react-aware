@@ -26,7 +26,7 @@ const useBrowserMeasure = ({
   const [rect, setRect] = useState(defaultRect)
 
   const observer = useMemo(() => {
-    return new (window as any).ResizeObserver((entries: any) => {
+    return new window.ResizeObserver(entries => {
       if (!entries[0]) return
       const { contentRect: currRect } = entries[0]
       const nextRect = {

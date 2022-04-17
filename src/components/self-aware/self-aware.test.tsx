@@ -1,23 +1,21 @@
 import '../../__mocks__/mock-resize-observer'
 import React from 'react'
 import { render, RenderResult } from '@testing-library/react'
-import { HeightAware } from './height-aware'
+import { SelfAware } from './self-aware'
 
-describe('HeightAware', () => {
+describe('SelfAware', () => {
   it('should be defined', () => {
-    expect(HeightAware).toBeDefined()
+    expect(SelfAware).toBeDefined()
   })
   it('should have the correct display name', () => {
-    expect(HeightAware.displayName).toBe('HeightAware')
+    expect(SelfAware.displayName).toBe('SelfAware')
   })
 
   describe('when rendering as a valid react element', () => {
     let result: RenderResult
     beforeEach(() => {
       result = render(
-        <HeightAware as="div" data-testid="wrapper">
-          {(height) => <span>{height}</span>}
-        </HeightAware>
+        <SelfAware as="div" data-testid="wrapper">{() => <span />}</SelfAware>
       )
     })
     it('should use the value of `as` as the tag name', () => {
@@ -29,11 +27,11 @@ describe('HeightAware', () => {
     let result: RenderResult
     beforeEach(() => {
       result = render(
-        <HeightAware as={React.Fragment} data-testid="wrapper">
-          {(height, ref) => (
-            <span ref={ref as any}>Height: {height}</span>
+        <SelfAware as={React.Fragment} data-testid="wrapper">
+          {(_, ref) => (
+            <span ref={ref as any} />
           )}
-        </HeightAware>
+        </SelfAware>
       )
     })
     it('should return a valid react element', () => {

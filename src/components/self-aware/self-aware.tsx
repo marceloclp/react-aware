@@ -1,5 +1,5 @@
 import { ElementType, ForwardedRef, MutableRefObject, useState } from 'react'
-import { PropsAs } from '../../types/utilities'
+import { AwareComponent, PropsAs } from '../../types/utilities'
 import forwardRefWithAs from '../../utils/forward-ref-with-as'
 import renderAs from '../../utils/render-as'
 import useSyncRefs from '../../hooks/use-sync-ref'
@@ -11,9 +11,11 @@ export type SelfAwareProps = {
   ) => JSX.Element
 }
 
-type SelfAwareFC = <T extends ElementType = typeof SELF_AWARE_TAG_NAME>(
-  props: PropsAs<T, SelfAwareProps>
-) => JSX.Element
+type SelfAwareComponent = AwareComponent<
+  <T extends ElementType = typeof SELF_AWARE_TAG_NAME>(
+    props: PropsAs<T, SelfAwareProps>
+  ) => JSX.Element
+>
 
 const SELF_AWARE_TAG_NAME = 'div'
 const SELF_AWARE_DISPLAY_NAME = 'SelfAware'
@@ -51,7 +53,7 @@ const SELF_AWARE_DISPLAY_NAME = 'SelfAware'
  *  </SelfAware>
  * ```
  */
-export const SelfAware: SelfAwareFC = forwardRefWithAs(
+export const SelfAware: SelfAwareComponent = forwardRefWithAs(
   function SelfAware<T extends ElementType = typeof SELF_AWARE_TAG_NAME>({
       as: tagName,
       children,

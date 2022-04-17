@@ -1,13 +1,4 @@
 {
-  // "parser": "@typescript-eslint/parser",
-  // "extends": [
-  //   "standard",
-  //   "standard-react",
-  //   "plugin:prettier/recommended",
-  //   "prettier/standard",
-  //   "prettier/react",
-  //   "plugin:@typescript-eslint/eslint-recommended"
-  // ],
   "env": {
     "node": true
   },
@@ -18,8 +9,7 @@
     "autofix"
   ],
   "extends": [
-    "eslint:recommended",
-    "react:recommened",
+    "eslint:recommended",    
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
@@ -43,7 +33,6 @@
     "@typescript-eslint/no-explicit-any": "off",
     "react/display-name": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    "autofix/sort-imports": "always",
     "unused-imports/no-unused-imports": "warn",
     "unused-imports/no-unused-vars": [
       "warn", {
@@ -53,24 +42,7 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "import/first": "always",
-    "simple-import-sort/exports": "warn",
-    "simple-import-sort/imports": [
-      "warn", {
-        "groups": [
-          [
-            "^.*//u0000$",
-            "^\\u0000",
-            "^@?\\w",
-            "^"
-          ]
-        ]
-      }
-    ],
-    "react/jsx-curly-brace-presence": [
-      "warn",
-      { "props": "never", "children": "never" }
-    ]
+    "simple-import-sort/exports": "warn"
   },
   "globals": {
     "React": true,

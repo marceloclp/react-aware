@@ -10,8 +10,8 @@ const mergeProps = (...arr: Record<string, any>[]) => {
   const target: Record<string, any> = {}
   const eventHandlers: Record<string, EventHandler[]> = {}
 
-  for (let props of arr) {
-    for (let prop in props) {
+  for (const props of arr) {
+    for (const prop in props) {
       // Collect event handlers.
       if (prop.startsWith('on') && typeof props[prop] === 'function') {
         if (!eventHandlers[prop])
@@ -32,11 +32,11 @@ const mergeProps = (...arr: Record<string, any>[]) => {
   }
 
   // Merge event handlers.
-  for (let eventName in eventHandlers) {
+  for (const eventName in eventHandlers) {
     Object.assign(target, {
       [eventName](event: { defaultPrevented: boolean }) {
-        let handlers = eventHandlers[eventName]
-        for (let handler of handlers)
+        const handlers = eventHandlers[eventName]
+        for (const handler of handlers)
           if (!event.defaultPrevented) handler(event)
       }
     })

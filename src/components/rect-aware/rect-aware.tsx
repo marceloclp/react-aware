@@ -1,5 +1,5 @@
 import { ElementType, ForwardedRef, MutableRefObject } from 'react'
-import { ElementRect, PropsAs } from '../../types/utilities'
+import { AwareComponent, ElementRect, PropsAs } from '../../types/utilities'
 import forwardRefWithAs from '../../utils/forward-ref-with-as'
 import renderAs from '../../utils/render-as'
 import useMeasure from '../../hooks/use-measure'
@@ -9,9 +9,11 @@ export type RectAwareProps = {
   children: (rect: ElementRect, ref: ForwardedRef<Element>) => JSX.Element
 }
 
-type RectAwareFC = <T extends ElementType = typeof RECT_AWARE_TAG_NAME>(
-  props: PropsAs<T, RectAwareProps>
-) => JSX.Element
+type RectAwareComponent = AwareComponent<
+  <T extends ElementType = typeof RECT_AWARE_TAG_NAME>(
+    props: PropsAs<T, RectAwareProps>
+  ) => JSX.Element
+>
 
 const RECT_AWARE_TAG_NAME = 'div'
 const RECT_AWARE_DISPLAY_NAME = 'RectAware'
@@ -39,7 +41,7 @@ const RECT_AWARE_DISPLAY_NAME = 'RectAware'
  *  </RectAware>
  * ```
  */
-export const RectAware: RectAwareFC = forwardRefWithAs(
+export const RectAware: RectAwareComponent = forwardRefWithAs(
   function RectAware<T extends ElementType = typeof RECT_AWARE_TAG_NAME>({
       as: tagName,
       children,
