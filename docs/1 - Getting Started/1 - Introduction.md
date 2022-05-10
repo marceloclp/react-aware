@@ -1,8 +1,6 @@
-# React Aware
+# Introduction
 
-React Aware exports a set of utility components with self aware capabilities that focus on improving readability.
-
-To understand how `react-aware` may improve readibility, take the example below:
+React Aware exports a set of utility components with self aware capabilities that focus on improving readability. To understand how `react-aware` may improve readibility, take the example below:
 
 ```tsx
 const Container = () => {
@@ -29,6 +27,10 @@ const Container = () => (
 It's often the case with sligthly complex components that require the use of multiple state, refs and effects, where we have to keep going back and forth between these declarations and the JSX.
 
 Let's take a look at how we could implement a slightly more complex component using pure React and `react-aware`.
+
+---
+
+## Scrollable
 
 ```tsx
 const Scrollable = ({ children }) => {
