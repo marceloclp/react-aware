@@ -1,0 +1,53 @@
+# `SelfAware`
+
+The `SelfAware` component exposes the DOM node of the root. It's the same as
+declaring your reference at the start of the function and attaching the ref
+object to an element:
+
+```tsx
+const SelfAware = () => {
+  const ref = useRef(null)
+  return <div ref={ref} />
+}
+```
+
+It's meant to be used inside large UI trees where it can be find to spot what is
+the element being attached or inside loops.
+
+## Props
+
+| Name | Type | Default | Description |
+| :--  | :--  | :--     | :--         |
+| `as` | `JSX.IntrinsicElements | React.FC` | `div` | The html element or react component function to render as the base element. The component will also accept and pipe down all the intrinsic props accepted by the component. |
+| `children` | `RenderFn`* | `undefined` | |
+
+### `RenderFn`
+
+The render function has the following signature:
+
+```ts
+function children(element?: Element, ref: RefObject, setRef: RefCallback): ReactNode
+```
+
+As usual with most aware components, you can render as a `React.Fragment` and
+attach the reference yourself. This can be useful if you need access to the DOM
+node somewhere up in the DOM tree, and is particularly useful if using inside
+async callbacks, as it ensures the value is up to date at the time it is used.
+
+```tsx
+const Form = () => (
+  <SelfAware as={React.Fragment}>
+    {(_, ref, setRef) => (
+      <form onSubmit={
+        () => setTimeout(() => console.log(ref.current.value), 1000)
+      }>
+        <input ref={ref} placeholder="Search" />
+        <button type="submit">Search</button>
+      </form>
+    )}
+  </SelfAware>
+)
+```
+
+For obvious reasons, if your render result is a large tree, you are better off
+declaring your reference at the start of the function body.
