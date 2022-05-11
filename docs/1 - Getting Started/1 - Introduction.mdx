@@ -1,14 +1,27 @@
 # Introduction
 
-React Aware exports a set of utility components with self aware capabilities that focus on improving readability. To understand how `react-aware` may improve readibility, take the example below:
+ReactAware is a set of utility components that use inversion of control to expose some data to the consumer via a render function, instead of having to separate the logical declarations from the JSX. This will usually result in shorter code that is easier to read and to maintain.
+
+Let's take a look at how ReactAware can make things shorter and easier to read by implementing a simple component that wants to have access to its width. This can be a common use case when implementing components that render different content based on the width of the screen or a container.
 
 ```tsx
 const Container = () => {
   const ref = useRef<HTMLDivElement>(null)
+  const [width, setWidth] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (ref.current)
+        setWidth(ref.current.getBoundingClientRect().width)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.addEventListener('resize', handleResize)
+  }, [])
 
   return (
     <div ref={ref}>
-      My div element is {ref.current?.getBoundingClientRect().width || 0}px wide!
+      My div element is {width}px wide!
     </div>
   )
 }
@@ -23,6 +36,8 @@ const Container = () => (
   </RectAware>
 )
 ```
+
+![RectAware will in fact use the ResizeObserver API instead of using event listeners!](note)
 
 It's often the case with sligthly complex components that require the use of multiple state, refs and effects, where we have to keep going back and forth between these declarations and the JSX.
 
