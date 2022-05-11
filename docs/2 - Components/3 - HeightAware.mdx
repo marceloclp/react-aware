@@ -1,0 +1,50 @@
+# HeightAware
+
+The `HeightAware` component exposes the height of the DOM node as reactive
+state. Under the hood, it's the same as `RectAware`, but optimized to only
+rerender when the height changes. And of course, it also makes use of the same
+ResizeObserver's API.
+
+This component is particularly powerful when creating scrollable containers
+whose parent does not have a fixed height. An example of this would be a flex
+item inside a flex column container.
+
+```tsx
+import { HeightAware, getScrollableStyle } from '@marceloclp/react-aware'
+
+const Scrollable = ({ items }) => (
+  <HeightAware style={{ flexGrow: '1' }}>
+    {height => (
+      <div style={getScrollableStyle(height)}>
+        {items.map(item => <div>{item}</div>)}
+      </div>
+    )}
+  </HeightAware>
+)
+```
+
+---
+
+## Props
+
+<PropTable>
+  <PropItem name='as' type='TagName | React.FC' default='div'>
+    The html element or react component function to render as the base element.
+    The component will also accept and pipe down all the intrinsic props
+    accepted by the component.
+  </PropItem>
+  <PropItem name='children' type='RenderFn' required />
+</PropTable>
+
+---
+
+### RenderFn
+
+The render function has the following signature:
+
+```ts
+function children(height: number, setRef: RefCallback): ReactNode
+```
+
+As usual with most aware components, you can render as a `React.Fragment` and
+attach the reference yourself.
