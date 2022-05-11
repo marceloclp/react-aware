@@ -14,15 +14,15 @@ const SelfAware = () => {
 }
 ```
 
-It's meant to be used inside large UI trees where it can be find to spot what is
-the element being attached or inside loops.
+It's meant to be used inside large UI trees where it can be hard to spot where
+the element is being attached, or inside loops.
 
 ---
 
 ## Props
 
 | Name       | Type                   | Default     | Description |
-| :--------- | :--------------------- | :---------- | :---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :--------- | :--------------------- | :---------- | :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `as`       | `JSX.IntrinsicElements | React.FC`   | `div`       | The html element or react component function to render as the base element. The component will also accept and pipe down all the intrinsic props accepted by the component. |
 | `children` | `RenderFn`\*           | `undefined` |             |
 
