@@ -1,0 +1,25 @@
+# Styles
+
+ReactAware also exposes a set of utility functions that derivate styling objects
+from the exposed component states for the most common use cases.
+
+---
+
+## getEnforcedHeightStyle
+
+Returns a style object with `height` and `maxHeight` set to the provided value
+in pixels.
+
+```ts
+function getEnforcedHeightStyle(height: number): CSSProperties
+```
+
+---
+
+## getScrollableStyle
+
+Similar to `getEnforcedHeightStyle`, but also forces `overflow` to be `scroll`.
+
+```ts
+function getScrollableStyle(height: number): CSSProperties
+```

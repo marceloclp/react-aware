@@ -10,7 +10,8 @@ the page.
 <Note type="success">
   ScreenAware will do some optimizations under the hood like using
   [RAF state](https://github.com/streamich/react-use/blob/master/docs/useRafState.md),
-  which triggers state updates on the callback of `requestAnimationFrame`!
+  which triggers state updates on the callback of `requestAnimationFrame`! But
+  try to be careful of overuse!
 </Note>
 
 For a specific device:
@@ -31,8 +32,8 @@ const breakpoints = [
   { name: 'tablet', min: 500 },
   { name: 'desktop', min: 1000 },
 ]
-const Media = ({ children }) => (
-  <ScreenAware>
+const Media = () => (
+  <ScreenAware breakpoints={breakpoints}>
     {({ breakpoint }) => ({
       mobile: () => <div>Mobile screen</div>,
       tablet: () => <div>Tablet screen</div>,
