@@ -37,7 +37,9 @@ const Container = () => (
 )
 ```
 
-![RectAware will in fact use the ResizeObserver API instead of using event listeners!](note)
+<Note type="tip">
+  `RectAware` will in fact use the [ResizeObserver API](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) instead of using event listeners! And it's all done automatically for you! How cool is that?
+</Note>
 
 It's often the case with sligthly complex components that require the use of multiple state, refs and effects, where we have to keep going back and forth between these declarations and the JSX.
 
