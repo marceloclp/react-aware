@@ -19,6 +19,8 @@ function getEnforcedHeightStyle(height: number): CSSProperties
 ## getScrollableStyle
 
 Similar to `getEnforcedHeightStyle`, but also forces `overflow` to be `scroll`.
+This is particularly useful when creating containers that do not have a min
+height but still need its content to be scrollable.
 
 ```ts
 function getScrollableStyle(height: number): CSSProperties
