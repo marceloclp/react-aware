@@ -21,10 +21,14 @@ the element is being attached, or inside loops.
 
 ## Props
 
-| Name       | Type                   | Default     | Description |
-| :--------- | :--------------------- | :---------- | :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `as`       | `JSX.IntrinsicElements | React.FC`   | `div`       | The html element or react component function to render as the base element. The component will also accept and pipe down all the intrinsic props accepted by the component. |
-| `children` | `RenderFn`\*           | `undefined` |             |
+<PropTable>
+  <PropItem name='as' type='JSX.IntrinsicElements | React.FC' default='div'>
+    The html element or react component function to render as the base element.
+    The component will also accept and pipe down all the intrinsic props
+    accepted by the component.
+  </PropItem>
+  <PropItem name='children' type='RenderFn' required />
+</PropTable>
 
 ---
 
