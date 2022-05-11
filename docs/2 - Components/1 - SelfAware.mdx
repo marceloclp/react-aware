@@ -1,8 +1,8 @@
-# `SelfAware`
+# SelfAware
 
-The `SelfAware` component exposes the DOM node of the root. It's the same as
-declaring your reference at the start of the function and attaching the ref
-object to an element:
+The `SelfAware` component exposes the DOM node of the root element - unless
+rendering as a `React.Fragment`. It's the same as declaring your reference at
+the start of the function and attaching the ref object to an element:
 
 ```tsx
 const SelfAware = () => {
@@ -21,7 +21,7 @@ the element being attached or inside loops.
 | `as` | `JSX.IntrinsicElements | React.FC` | `div` | The html element or react component function to render as the base element. The component will also accept and pipe down all the intrinsic props accepted by the component. |
 | `children` | `RenderFn`* | `undefined` | |
 
-### `RenderFn`
+### RenderFn
 
 The render function has the following signature:
 
