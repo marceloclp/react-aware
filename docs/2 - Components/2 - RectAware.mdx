@@ -1,0 +1,80 @@
+# RectAware
+
+The `RectAware` component exposes the bounding client rectangle of the DOM node
+as reactive state.
+
+<Note type="warning">
+  Under the hood, `RectAware` will use the
+  [ResizeObserver API](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
+  instead of attaching event listeners to the window. This means increased
+  performance, but it requires the use of a polyfill!
+</Note>
+
+This component is particularly useful content is rendered differently based on
+width of their parents or screen. Although, if your component depends on the
+screen width, it's recommended to use the `ScreenAware` component instead!
+
+```tsx
+const Layout = () => (
+  <RectAware>
+    {({ width }) =>
+      width > DEVICE_BREAKPOINT
+        ? <div>Content for large devices</div>
+        : <div>Content for small devices</div>
+    }
+  </RectAware>
+)
+```
+
+---
+
+## Props
+
+<PropTable>
+  <PropItem name='as' type='TagName | React.FC' default='div'>
+    The html element or react component function to render as the base element.
+    The component will also accept and pipe down all the intrinsic props
+    accepted by the component.
+  </PropItem>
+  <PropItem name='children' type='RenderFn' required />
+</PropTable>
+
+---
+
+### RenderFn
+
+The render function has the following signature:
+
+```ts
+function children(rect: ElementRect, setRef: RefCallback): ReactNode
+```
+
+As usual with most aware components, you can render as a `React.Fragment` and
+attach the reference yourself. The main reason to do this is if you need to
+avoid using a Fragment inside the render function, as oposed to outside when
+rendering multiple children:
+
+```tsx
+const WithInternalFragment = () => (
+  <RectAware as="div">
+    {() => (
+      <React.Fragment>
+        <div>Child 1</div>
+        <div>Child 2</div>
+      </React.Fragment>
+    )}
+  </RectAware>
+)
+const WithExternalFragment = () => (
+  <RectAware as={React.Fragment}>
+    {(_, setRef) => (
+      <div ref={setRef}>
+        <div>Child 1</div>
+        <div>Child 2</div>
+      </div>
+    )}
+  </RectAware>
+)
+```
+
+There is no gain in indentation, so it's up to preference of readibility.
