@@ -1,8 +1,11 @@
 # SelfAware
 
 The `SelfAware` component exposes the DOM node of the root element - unless
-rendering as a `React.Fragment`. It's the same as declaring your reference at
-the start of the function and attaching the ref object to an element:
+rendering as a Fragment.
+
+It's the same as declaring your reference at the start of the function, and then
+attaching the ref to the desired node, with the exception that the **element is
+not reactive**.
 
 ```tsx
 const SelfAware = () => {
@@ -18,10 +21,10 @@ the element being attached or inside loops.
 
 ## Props
 
-| Name | Type | Default | Description |
-| :--  | :--  | :--     | :--         |
-| `as` | `JSX.IntrinsicElements | React.FC` | `div` | The html element or react component function to render as the base element. The component will also accept and pipe down all the intrinsic props accepted by the component. |
-| `children` | `RenderFn`* | `undefined` | |
+| Name       | Type                   | Default     | Description |
+| :--------- | :--------------------- | :---------- | :---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `as`       | `JSX.IntrinsicElements | React.FC`   | `div`       | The html element or react component function to render as the base element. The component will also accept and pipe down all the intrinsic props accepted by the component. |
+| `children` | `RenderFn`\*           | `undefined` |             |
 
 ---
 
@@ -30,7 +33,11 @@ the element being attached or inside loops.
 The render function has the following signature:
 
 ```ts
-function children(element?: Element, ref: RefObject, setRef: RefCallback): ReactNode
+function children(
+  element?: Element,
+  ref: RefObject,
+  setRef: RefCallback
+): ReactNode
 ```
 
 As usual with most aware components, you can render as a `React.Fragment` and
@@ -42,11 +49,11 @@ async callbacks, as it ensures the value is up to date at the time it is used.
 const Form = () => (
   <SelfAware as={React.Fragment}>
     {(_, ref, setRef) => (
-      <form onSubmit={
-        () => setTimeout(() => console.log(ref.current.value), 1000)
-      }>
-        <input ref={ref} placeholder="Search" />
-        <button type="submit">Search</button>
+      <form
+        onSubmit={() => setTimeout(() => console.log(ref.current.value), 1000)}
+      >
+        <input ref={ref} placeholder='Search' />
+        <button type='submit'>Search</button>
       </form>
     )}
   </SelfAware>
