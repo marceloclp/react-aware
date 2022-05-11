@@ -1,0 +1,83 @@
+# ScreenAware
+
+The `ScreenAware` component exposes the width and height of the screen.
+Additionaly, if an array of breakpoints is passed to the components, it will
+also expose the currently active breakpoint.
+
+The main purpose of this component is to render content based on the width of
+the page.
+
+<Note type="success">
+  ScreenAware will do some optimizations under the hood like using
+  [RAF state](https://github.com/streamich/react-use/blob/master/docs/useRafState.md),
+  which triggers state updates on the callback of `requestAnimationFrame`!
+</Note>
+
+For a specific device:
+
+```tsx
+const MobileOnly = ({ children }) => (
+  <ScreenAware>
+    {({ width }) => width < MOBILE_BREAKPOINT ? children : null}
+  </ScreenAware>
+)
+```
+
+Or, if you pass down an array of breakpoints:
+
+```tsx
+const breakpoints = [
+  { name: 'mobile', min: 0 },
+  { name: 'tablet', min: 500 },
+  { name: 'desktop', min: 1000 },
+]
+const Media = ({ children }) => (
+  <ScreenAware>
+    {({ breakpoint }) => ({
+      mobile: () => <div>Mobile screen</div>,
+      tablet: () => <div>Tablet screen</div>,
+      desktop: () => <div>Desktop screen</div>,
+    }[breakpoint.name])()}
+  </ScreenAware>
+)
+```
+
+---
+
+## Props
+
+<PropTable>
+  <PropItem name='as' type='TagName | React.FC' default='Fragment'>
+    The html element or react component function to render as the base element.
+    The component will also accept and pipe down all the intrinsic props
+    accepted by the component.
+  </PropItem>
+  <PropItem name='children' type='RenderFn' required />
+  <PropItem name='breakpoints' type='Breakpoint[]'>
+    An array of breakpoint objects. If specified, the currently active
+    breakpoint will be exposed in the render function.
+  </PropItem>
+</PropTable>
+
+---
+
+### RenderFn
+
+The render function has the following signature:
+
+```ts
+function children(screen: IScreen, setRef: RefCallback): ReactNode
+```
+
+```ts
+type IScreen = {
+  width: number
+  height: number
+  breakpoint: { name: string; min: number; max?: number }
+}
+```
+
+<Note type="warning">
+  By default, `ScreenAware` will render as a `React.Fragment`.
+</Note>
+
