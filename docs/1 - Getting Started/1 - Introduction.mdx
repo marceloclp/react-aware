@@ -1,8 +1,14 @@
 # Introduction
 
-ReactAware is a set of utility components that use inversion of control to expose some data to the consumer via a render function, instead of having to separate the logical declarations from the JSX. This will usually result in shorter code that is easier to read and to maintain.
+ReactAware is a set of utility components that use inversion of control to
+expose some data to the consumer via a render function, instead of having to
+separate the logical declarations from the JSX. This will usually result in
+shorter code that is easier to read and to maintain.
 
-Let's take a look at how ReactAware can make things shorter and easier to read by implementing a simple component that wants to have access to its width. This can be a common use case when implementing components that render different content based on the width of the screen or a container.
+Let's take a look at how ReactAware can make things shorter and easier to read
+by implementing a simple component that wants to have access to its width. This
+can be a common use case when implementing components that render different
+content based on the width of the screen or a container.
 
 ```tsx
 const Container = () => {
@@ -27,7 +33,7 @@ const Container = () => {
 }
 ```
 
-Could be written like this:
+Could simply be written like this:
 
 ```tsx
 const Container = () => (
@@ -38,50 +44,41 @@ const Container = () => (
 ```
 
 <Note type="tip">
-  `RectAware` will in fact use the [ResizeObserver API](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) instead of using event listeners! And it's all done automatically for you! How cool is that?
+  `RectAware` will in fact use the
+  [ResizeObserver API](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
+  over event listeners, which results in improved performance for just the cost
+  of a small polyfill!
 </Note>
-
-It's often the case with sligthly complex components that require the use of multiple state, refs and effects, where we have to keep going back and forth between these declarations and the JSX.
-
-Let's take a look at how we could implement a slightly more complex component using pure React and `react-aware`.
 
 ---
 
-## Scrollable
+## Improved readibility
 
-```tsx
-const Scrollable = ({ children }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const [height, setHeight] = useState(0)
+It's often the case with slightly complex components that require the use of
+multiple hooks, that we need to jump between the top of the function - where the
+hooks are used, and the JSX, in order to understand how that state is being used.
 
-  useEffect(() => {
-    if (ref.current) {
-      setHeight(ref.current.getBoundingClientRect().height)
-    }
-  }, [])
+However, one of JSX strong points is that it does not attempt to split the logic
+from the presentational (HTML) layer. Even with modern react, it's still often
+that we find ourselves in state hell, having to jump back and forth between
+sessions.
 
-  return (
-    <div ref={ref} style={{ flexGrow: 1, overflow: 'hidden' }}>
-      <div style={{ height: `${height}`px, overflow: 'auto' }}>
-        {children}
-      </div>
-    </div>
-  )
-}
-```
+ReactAware attempts to improve upon this problem - to however dislikes state
+hell, by using inversion of control, resulting in more concise code and improved
+readibility.
 
-Now let's take a look at the same example, but taking advantage of the `HeightAware` component and some of its style utils:
+---
 
-```tsx
-import { HeightAware, getScrollableStyle } from '@marceloclp/react-aware'
+## Self/environment aware
 
-const Scrollable = ({ children }) => (
-  <HeightAware as="div" style={{ flexGrow: 1 }}>
-    {(height) => (
-      <div style={getScrollableStyle(height)}>
-        {children}
-      </div>
-    )}
-  </HeightAware>
-)
-```
+The utility components exposed by ReactAware implement some sort of awareness
+about themselves or its environment, like:
+
+* Its DOM node;
+* Its bounding client rect (a.k.a, its dimensions and position on the page);
+* The screen dimensions (great for width-based content);
+* The mouse position (useful for animations that revolve around mouse movement).
+
+In order to get the most out of the exposed components, ReactAware also exports
+a set of helper functions that derive the exposed data into style objects so you
+don't have to reinvent the wheel every time!
