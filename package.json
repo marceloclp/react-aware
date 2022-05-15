@@ -2,7 +2,11 @@
   "name": "@marceloclp/react-aware",
   "version": "1.2.0",
   "description": "A set of declarative components that implement self aware functionalities.",
-  "author": "marceloclp",
+  "author": {
+    "name": "Marcelo Perrella",
+    "email": "marceloclperrella@gmail.com",
+    "url": "https://marceloclp.me/"
+  },
   "license": "MIT",
   "private": false,
   "repository": {
